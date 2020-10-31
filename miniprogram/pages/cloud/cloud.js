@@ -43,8 +43,19 @@ Page({
   delete: function(){
     db.collection('user').doc("b4f7b7d25f9d475a001206b07b058792").remove({
       success: console.log,
-      fail:console.error
+      fail: console.error
     })
+  },
+  sum: function(){
+    wx.cloud.callFunction({
+      name: 'sum',
+      data:{
+        a: 1,
+        b: 2
+      },
+      success: console.log,
+      fail: console.error
+    });
   },
 
   /**

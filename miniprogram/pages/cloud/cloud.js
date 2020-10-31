@@ -25,15 +25,25 @@ Page({
   },
   update: function(){
     db.collection('user').doc('b4f7b7d25f9d45600011fa3726f5973a').update({
-      date:{
-        age: 100
+      data:{
+        name: 'jerry_update'
       },
-      success: res=>{
-        console.log(res);
-      },
-      fail: err=>{
-        console.log(err);
-      }
+      success: console.log,
+      fail: console.error
+    })
+  },
+  search: function(){
+    db.collection('user').where({
+      name:"jerry"
+    }).get({
+      success: console.log,
+      fail:console.error
+    })
+  },
+  delete: function(){
+    db.collection('user').doc("b4f7b7d25f9d475a001206b07b058792").remove({
+      success: console.log,
+      fail:console.error
     })
   },
 

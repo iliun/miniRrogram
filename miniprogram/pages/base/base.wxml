@@ -1,0 +1,21 @@
+<view>{{msg}}</view>
+<image class="banner" src="{{img}}"></image>
+<view wx:for="{{arr}}" wx:key="index">
+  {{index}}:{{item}}
+</view>
+
+<view wx:for="{{list}}" wx:key="index">
+  {{item.name}}:{{item.age}}
+</view>
+<view wx:if="{{isLogin}}">已经登录，这是true</view>
+<view wx:else> 请登录</view>
+<!-- hidden的值为true则进行隐藏，否则显示,可在控制台-wxml中查看 -->
+<view hidden="{{isLogin}}">hidden</view>
+<view hidden="{{!isLogin}}">hidden</view>
+<!-- catch 和 bind 绑定事件的区别 -->
+<view class='box' catchtap="onTapBoxHandler">
+  <view class='child' catchtap="onTapChildHandler"></view>
+</view>
+<!-- 绑定点击事件bindtap=onTapHandler -->
+<button size="mini" catchtap="onTapHandler">点击按钮后加1</button>
+<view>{{count}}</view>

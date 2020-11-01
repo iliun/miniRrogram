@@ -57,6 +57,21 @@ Page({
       fail: console.error
     });
   },
+  getOpenId: function(){
+    wx.cloud.callFunction({
+      name: 'login',
+      success: console.log,
+      fail: console.error
+      });
+  },
+
+  batchDelete: function(){
+    wx.cloud.callFunction({
+      name: 'batchDelete',
+      success: console.log,
+      fail: console.error
+    });
+  },
 
   /**
    * 生命周期函数--监听页面加载

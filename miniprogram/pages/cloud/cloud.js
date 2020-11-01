@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    images: []
   },
   insert: function(){
     db.collection('user').add({
@@ -71,6 +71,67 @@ Page({
       success: console.log,
       fail: console.error
     });
+  },
+  upload :function(){
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'],
+      sourceType: ['album', 'camera'],
+      success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+        const tempFilePaths = res.tempFilePaths;
+        wx.cloud.uploadFile({
+          cloudPath: new Date().getTime() + '.png', // 上传至云端的路径
+          filePath: tempFilePaths[0], // 小程序临时文件路径
+          success: res => {
+            // 返回文件 ID
+            console.log(res.fileID)
+            db.collection('image').add({
+              data:{
+                fileID: res.fileID,
+                success: console.log,
+                fail: console.error
+              }
+            })
+          },
+          fail: console.error
+        })
+      }
+    })
+  },
+  getFile: function(){
+    wx.cloud.callFunction({
+      name: 'login',
+    }).then(res => {
+      db.collection('image').where({
+        _openid: res.result.openid
+      }).get().then(res2=>{
+        console.log(res2);
+        this.setData({
+          images: res2.data
+        })
+      })
+    })
+  },
+  downloadFile: function(event){
+    wx.cloud.downloadFile({
+      fileID: event.target.dataset.fileid, // 文件 ID
+      success: res => {
+        // 返回临时文件路径
+        console.log(res.tempFilePath)
+        //保存到系统相册
+        wx.saveImageToPhotosAlbum({
+          filePath: res.tempFilePath,
+          success(res) {
+            wx.showToast({
+              title: '保存成功'
+            })
+           }
+        })
+      },
+      fail: console.error
+    })
+    
   },
 
   /**
